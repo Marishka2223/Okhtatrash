@@ -1,0 +1,183 @@
+Для выполнения задачи, вам нужно написать PHP-скрипт, который будет проверять наличие базы данных "Ducks". Если база данных не существует, скрипт создаст её и затем создаст в ней две таблицы: `userz` и `sub`.
+
+Вот пример кода:
+
+```php
+<?php
+// Параметры подключения к базе данных
+$servername = "localhost";
+$username = "root"; // Замените на ваше имя пользователя
+$password = ""; // Замените на ваш пароль
+
+// Создаем подключение
+$conn = new mysqli($servername, $username, $password);
+
+// Проверяем подключение
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Проверяем наличие базы данных "Ducks"
+$sql = "SHOW DATABASES LIKE 'Ducks'";
+$result = $conn->query($sql);
+
+if ($result->num_rows == 0) {
+    // Если базы данных нет, создаем её
+    $sql = "CREATE DATABASE Ducks";
+    if ($conn->query($sql) === TRUE) {
+        echo "Database 'Ducks' created successfully<br>";
+    } else {
+        echo "Error creating database: " . $conn->error;
+        $conn->close();
+        exit;
+    }
+}
+
+// Подключаемся к созданной базе данных
+$conn->select_db("Ducks");
+
+// Создаем таблицу userz
+$sql = "CREATE TABLE userz (
+    id_User INT AUTO_INCREMENT PRIMARY KEY,
+    login VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    fam VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+)";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Table 'userz' created successfully<br>";
+} else {
+    echo "Error creating table 'userz': " . $conn->error;
+}
+
+// Создаем таблицу sub
+$sql = "CREATE TABLE sub (
+    id_user INT,
+    login VARCHAR(255) NOT NULL,
+    subz INT DEFAULT 1,
+    FOREIGN KEY (id_user) REFERENCES userz(id_User),
+    FOREIGN KEY (login) REFERENCES userz(login)
+)";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Table 'sub' created successfully<br>";
+} else {
+    echo "Error creating table 'sub': " . $conn->error;
+}
+
+// Закрываем соединение
+$conn->close();
+?>
+```
+
+### Объяснение кода:
+
+1. **Подключение к MySQL**: Скрипт подключается к серверу MySQL с использованием предоставленных учетных данных.
+
+2. **Проверка наличия базы данных**: Скрипт проверяет, существует ли база данных "Ducks". Если база данных не существует, она создается.
+
+3. **Создание таблиц**: После создания базы данных, скрипт создает две таблицы:
+   - **userz**: Содержит информацию о пользователях.
+   - **sub**: Содержит информацию о подписках пользователей. В этой таблице `id_user` и `login` связаны с соответствующими полями в таблице `userz`.
+
+4. **Закрытие соединения**: После выполнения всех операций соединение с базой данных закрывается.
+
+### Примечания:
+- Убедитесь, что у вас есть права на создание базы данных и таблиц.
+- Замените `root` и пустой пароль на реальные учетные данные, если они отличаются.
+- Этот скрипт можно запустить один раз для инициализации базы данных и таблиц. После этого его можно удалить или закомментировать.Для выполнения задачи, вам нужно написать PHP-скрипт, который будет проверять наличие базы данных "Ducks". Если база данных не существует, скрипт создаст её и затем создаст в ней две таблицы: `userz` и `sub`.
+
+Вот пример кода:
+
+```php
+<?php
+// Параметры подключения к базе данных
+$servername = "localhost";
+$username = "root"; // Замените на ваше имя пользователя
+$password = ""; // Замените на ваш пароль
+
+// Создаем подключение
+$conn = new mysqli($servername, $username, $password);
+
+// Проверяем подключение
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Проверяем наличие базы данных "Ducks"
+$sql = "SHOW DATABASES LIKE 'Ducks'";
+$result = $conn->query($sql);
+
+if ($result->num_rows == 0) {
+    // Если базы данных нет, создаем её
+    $sql = "CREATE DATABASE Ducks";
+    if ($conn->query($sql) === TRUE) {
+        echo "Database 'Ducks' created successfully<br>";
+    } else {
+        echo "Error creating database: " . $conn->error;
+        $conn->close();
+        exit;
+    }
+}
+
+// Подключаемся к созданной базе данных
+$conn->select_db("Ducks");
+
+// Создаем таблицу userz
+$sql = "CREATE TABLE userz (
+    id_User INT AUTO_INCREMENT PRIMARY KEY,
+    login VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    fam VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+)";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Table 'userz' created successfully<br>";
+} else {
+    echo "Error creating table 'userz': " . $conn->error;
+}
+
+// Создаем таблицу sub
+$sql = "CREATE TABLE sub (
+    id_user INT,
+    login VARCHAR(255) NOT NULL,
+    subz INT DEFAULT 1,
+    FOREIGN KEY (id_user) REFERENCES userz(id_User),
+    FOREIGN KEY (login) REFERENCES userz(login)
+)";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Table 'sub' created successfully<br>";
+} else {
+    echo "Error creating table 'sub': " . $conn->error;
+}
+
+// Закрываем соединение
+$conn->close();
+?>
+```
+
+### Объяснение кода:
+
+1. **Подключение к MySQL**: Скрипт подключается к серверу MySQL с использованием предоставленных учетных данных.
+
+2. **Проверка наличия базы данных**: Скрипт проверяет, существует ли база данных "Ducks". Если база данных не существует, она создается.
+
+3. **Создание таблиц**: После создания базы данных, скрипт создает две таблицы:
+   - **userz**: Содержит информацию о пользователях.
+   - **sub**: Содержит информацию о подписках пользователей. В этой таблице `id_user` и `login` связаны с соответствующими полями в таблице `userz`.
+
+4. **Закрытие соединения**: После выполнения всех операций соединение с базой данных закрывается.
+
+### Примечания:
+- Убедитесь, что у вас есть права на создание базы данных и таблиц.
+- Замените `root` и пустой пароль на реальные учетные данные, если они отличаются.
+- Этот скрипт можно запустить один раз для инициализации базы данных и таблиц. После этого его можно удалить или закомментировать.
